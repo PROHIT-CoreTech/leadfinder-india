@@ -92,9 +92,12 @@ export async function fetchLeadsFromGooglePlaces(
   let pageToken: string | undefined;
 
   for (let page = 0; page < MAX_PAGES; page++) {
-    const body: Record<string, unknown> = pageToken
-      ? { textQuery, pageToken }
-      : { textQuery, languageCode: "en" };
+    const body: Record<string, unknown> = {
+      textQuery,
+      languageCode: "en",
+      ...(pageToken ? { pageToken } : {}),
+    };
+
 
     const response = await fetch(PLACES_SEARCH_URL, {
       method: "POST",
